@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
         getTime(time);
         readDeviceData(dev, &newRaw, sizeof(newRaw));
         updateController(&controller, &newRaw);
-        //handle_state(&controller, io);
+        handle_state(&controller, io);
         delayUntil(time, 1000 / 60);
     }
 
