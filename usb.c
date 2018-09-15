@@ -36,5 +36,6 @@ void getDeviceName(USBDevice* device, char* name, int length) {
 }
 
 void readDeviceData(USBDevice* device, void* buffer, int length) {
+    lseek(device->fd, 0, SEEK_END);
     read(device->fd, buffer, length);
 }
