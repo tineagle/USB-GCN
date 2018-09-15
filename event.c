@@ -62,7 +62,7 @@ void handle_state(Controller* controller, IODevice* device) {
 
     unsigned char deadzone = 32;
     HANDLE_MOVE(deadzone);
-    //HANDLE_SCROLL(deadzone);
+    HANDLE_SCROLL(deadzone);
 
     sendEvents(device);
 }
