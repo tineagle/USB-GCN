@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         updateController(&controller, &newRaw);
         controller.raw = newRaw;
         handle_state(&controller, io);
-        delayUntil(time, 1000 / 60);
+        delayUntil(time, 15);
     }
 
     // Cleanup memory

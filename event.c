@@ -10,10 +10,10 @@ if(controller->transitions.button == RISING) {          \
 #define HANDLE_MOVE(deadzone) {                                     \
     int dx, dy;                                                     \
     dx = dy = 0;                                                    \
-    if(controller->raw.mainStick.LR > (128 + deadzone)) dx =  15;   \
-    if(controller->raw.mainStick.LR < (128 - deadzone)) dx = -15;   \
-    if(controller->raw.mainStick.UD > (128 + deadzone)) dy =  15;   \
-    if(controller->raw.mainStick.UD < (128 - deadzone)) dy = -15;   \
+    if(controller->raw.mainStick.LR > (128 + deadzone)) dx =  10;   \
+    if(controller->raw.mainStick.LR < (128 - deadzone)) dx = -10;   \
+    if(controller->raw.mainStick.UD > (128 + deadzone)) dy =  10;   \
+    if(controller->raw.mainStick.UD < (128 - deadzone)) dy = -10;   \
     mouseMove(device, dx, dy);                                      \
 }
 
@@ -62,5 +62,7 @@ void handle_state(Controller* controller, IODevice* device) {
 
     unsigned char deadzone = 32;
     HANDLE_MOVE(deadzone);
-    HANDLE_SCROLL(deadzone);
+    //HANDLE_SCROLL(deadzone);
+
+    sendEvents(device);
 }

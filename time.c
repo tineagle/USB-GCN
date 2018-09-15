@@ -33,7 +33,7 @@ void delayUntil(Time* time, long msec) {
     long elapsed = end.tv_nsec - time->start.tv_nsec;
     struct timespec request;
     request.tv_sec = 0;
-    request.tv_nsec = (msec * 1000000L) - elapsed;
+    request.tv_nsec = (msec * 1000000) - elapsed;
 
     // Sleep about the right amount
     struct timespec remaining;

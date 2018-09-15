@@ -1,6 +1,7 @@
 #include "usb.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -9,33 +10,31 @@
 #include <linux/hidraw.h>
 
 struct USBDevice {
-    int fd;
+    FILE* file;
+    char* name;
 };
 
 USBDevice* openDevice(char* name) {
-    int fd = open(name, O_RDWR | O_NONBLOCK);
-    if(fd == -1) return NULL;
-
-    char buffer[256];
-    ioctl(fd, HIDIOCGRAWNAME(256), buffer);
-    printf("Opening: %s\n", buffer);
+    FILE* file = fopen(name, "r");
+    if(file == NULL) return NULL;
 
     USBDevice* device = malloc(sizeof(USBDevice));
-    device->fd = fd;
+    device->file = file;
+    device->name = name;
 
     return device;
 }
 
 void closeDevice(USBDevice* device) {
-    close(device->fd);
+    fclose(device->file);
     free(device);
 }
 
-void getDeviceName(USBDevice* device, char* name, int length) {
-    ioctl(device->fd, HIDIOCGRAWNAME(length), name);
+void reopenDevice(USBDevice* device) {
+    freopen(device->name, "r", device->file);
 }
 
 void readDeviceData(USBDevice* device, void* buffer, int length) {
-    lseek(device->fd, 0, SEEK_END);
-    read(device->fd, buffer, length);
+    reopenDevice(device);
+    fread(buffer, length, 1, device->file);
 }
