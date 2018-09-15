@@ -7,23 +7,23 @@ if(controller->transitions.button == RISING) {          \
     fun(device, 0);                                     \
 }
 
-#define HANDLE_MOVE(deadzone) {                                 \
-    int dx, dy;                                                 \
-    dx = dy = 0;                                                \
-    if(controller->raw.mainStick.LR > 128 + deadzone) dx =  15; \
-    if(controller->raw.mainStick.LR < 128 - deadzone) dx = -15; \
-    if(controller->raw.mainStick.UD > 128 + deadzone) dy =  15; \
-    if(controller->raw.mainStick.UD < 128 - deadzone) dy = -15; \
-    mouseMove(device, dx, dy);                                  \
+#define HANDLE_MOVE(deadzone) {                                     \
+    int dx, dy;                                                     \
+    dx = dy = 0;                                                    \
+    if(controller->raw.mainStick.LR > (128 + deadzone)) dx =  15;   \
+    if(controller->raw.mainStick.LR < (128 - deadzone)) dx = -15;   \
+    if(controller->raw.mainStick.UD > (128 + deadzone)) dy =  15;   \
+    if(controller->raw.mainStick.UD < (128 - deadzone)) dy = -15;   \
+    mouseMove(device, dx, dy);                                      \
 }
 
-#define HANDLE_SCROLL(deadzone) {                           \
-    int dx, dy;                                             \
-    if(controller->raw.cStick.LR > 128 + deadzone) dx =  2; \
-    if(controller->raw.cStick.LR < 128 - deadzone) dx = -2; \
-    if(controller->raw.cStick.UD > 128 + deadzone) dy = -2; \
-    if(controller->raw.cStick.UD < 128 - deadzone) dy =  2; \
-    mouseScroll(device, dx, dy);                            \
+#define HANDLE_SCROLL(deadzone) {                               \
+    int dx, dy;                                                 \
+    if(controller->raw.cStick.LR > (128 + deadzone)) dx =  2;   \
+    if(controller->raw.cStick.LR < (128 - deadzone)) dx = -2;   \
+    if(controller->raw.cStick.UD > (128 + deadzone)) dy = -2;   \
+    if(controller->raw.cStick.UD < (128 - deadzone)) dy =  2;   \
+    mouseScroll(device, dx, dy);                                \
 }
 
 void handle_state(Controller* controller, IODevice* device) {
@@ -60,7 +60,7 @@ void handle_state(Controller* controller, IODevice* device) {
     // Z -> Alt
     HANDLE_TRANSITION(Z, altKey);
 
-    int deadzone = 32;
+    unsigned char deadzone = 32;
     HANDLE_MOVE(deadzone);
     HANDLE_SCROLL(deadzone);
 }

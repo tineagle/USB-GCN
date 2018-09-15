@@ -16,6 +16,10 @@ USBDevice* openDevice(char* name) {
     int fd = open(name, O_RDWR | O_NONBLOCK);
     if(fd == -1) return NULL;
 
+    char buffer[256];
+    ioctl(fd, HIDIOCGRAWNAME(256), buffer);
+    printf("Opening: %s\n", buffer);
+
     USBDevice* device = malloc(sizeof(USBDevice));
     device->fd = fd;
 
